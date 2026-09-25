@@ -30,6 +30,11 @@ data/*.sqlite
 # Logs (fully ignored)
 logs/
 
+# Editions are the emails themselves — the actual send is the source of truth;
+# archived .md / .html are useful locally (weekly Sunday review reads them)
+# but shouldn't churn git history.
+editions/
+
 # Proposed config edits from Sunday review — human reviews then merges to taste.yaml
 config/taste.yaml.proposed
 
