@@ -1,12 +1,14 @@
 """Render markdown-authored editions into styled HTML for email delivery."""
 
+import base64
 from datetime import datetime
+from functools import lru_cache
 from typing import Any
 
 import markdown as md_lib
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from curio.config import TEMPLATES_DIR
+from curio.config import PROJECT_ROOT, TEMPLATES_DIR
 
 _env = Environment(
     loader=FileSystemLoader(str(TEMPLATES_DIR)),
@@ -14,6 +16,17 @@ _env = Environment(
     trim_blocks=True,
     lstrip_blocks=True,
 )
+
+
+@lru_cache(maxsize=1)
+def _mark_data_uri() -> str:
+    """Base64-encoded PNG of the Curio mark, as a data URI.
+
+    Inline SVG is stripped by Gmail; a base64 PNG in an <img> tag
+    renders reliably across Gmail, Apple Mail, Outlook, and iOS Mail.
+    """
+    png = (PROJECT_ROOT / "assets" / "mark.png").read_bytes()
+    return "data:image/png;base64," + base64.b64encode(png).decode("ascii")
 
 
 def markdown_to_html(md: str) -> str:
@@ -66,5 +79,6 @@ def render_edition_email(
         weekday=weekday,
         rotation_topic=rotation_topic or "",
         body_html=body_html,
+        mark_src=_mark_data_uri(),
         generated_at=datetime.now().strftime("%Y-%m-%d %H:%M"),
     )

@@ -28,6 +28,7 @@ async def send_digest(
     api_key = os.getenv("RESEND_API_KEY")
     frm = os.getenv("DIGEST_FROM")
     to = os.getenv("DIGEST_TO")
+    from_name = os.getenv("DIGEST_FROM_NAME", "Curio")
     if not api_key:
         raise RuntimeError("RESEND_API_KEY must be set in .env")
     if not frm:
@@ -37,8 +38,12 @@ async def send_digest(
     if not to:
         raise RuntimeError("DIGEST_TO must be set in .env")
 
+    # RFC 5322 "friendly from" — display name + address, so inbox shows
+    # "Curio" rather than the raw email prefix.
+    from_header = f'"{from_name}" <{frm}>' if from_name else frm
+
     payload = {
-        "from": frm,
+        "from": from_header,
         "to": [to],
         "subject": subject,
         "html": html_body,
