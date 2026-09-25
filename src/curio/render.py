@@ -1,14 +1,13 @@
 """Render markdown-authored editions into styled HTML for email delivery."""
 
-import base64
+import os
 from datetime import datetime
-from functools import lru_cache
 from typing import Any
 
 import markdown as md_lib
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from curio.config import PROJECT_ROOT, TEMPLATES_DIR
+from curio.config import TEMPLATES_DIR
 
 _env = Environment(
     loader=FileSystemLoader(str(TEMPLATES_DIR)),
@@ -17,16 +16,16 @@ _env = Environment(
     lstrip_blocks=True,
 )
 
+# Gmail webmail strips base64 data URIs (Google's image proxy refuses them),
+# so the mark must be served from a public URL. GitHub raw content works
+# because the repo is public. Forkers can override via CURIO_MARK_URL.
+_DEFAULT_MARK_URL = (
+    "https://raw.githubusercontent.com/arpit94/curio/main/assets/mark.png"
+)
 
-@lru_cache(maxsize=1)
-def _mark_data_uri() -> str:
-    """Base64-encoded PNG of the Curio mark, as a data URI.
 
-    Inline SVG is stripped by Gmail; a base64 PNG in an <img> tag
-    renders reliably across Gmail, Apple Mail, Outlook, and iOS Mail.
-    """
-    png = (PROJECT_ROOT / "assets" / "mark.png").read_bytes()
-    return "data:image/png;base64," + base64.b64encode(png).decode("ascii")
+def _mark_url() -> str:
+    return os.getenv("CURIO_MARK_URL") or _DEFAULT_MARK_URL
 
 
 def markdown_to_html(md: str) -> str:
@@ -79,6 +78,6 @@ def render_edition_email(
         weekday=weekday,
         rotation_topic=rotation_topic or "",
         body_html=body_html,
-        mark_src=_mark_data_uri(),
+        mark_src=_mark_url(),
         generated_at=datetime.now().strftime("%Y-%m-%d %H:%M"),
     )
