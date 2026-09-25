@@ -1,0 +1,56 @@
+# Sources, weekday rotation, and structural constraints for the daily edition.
+
+weekday_rotation:
+  # 0 = Monday ... 6 = Sunday
+  0: systems_os
+  1: us_healthcare
+  2: ai_research
+  3: data_infra
+  4: wildcard            # anything high-signal that doesn't fit other days
+  5: retrospective       # things surfaced this week but not included
+  6: light_and_review    # lighter reading + weekly taste review
+
+# Fixed common segments (every day)
+segments:
+  quote_of_the_day:
+    count: 1
+    fetch_via: zenquotes
+  news:
+    count: 4
+    fetch_via: web_search
+    prompts:
+      - "top world news today"
+      - "top tech news today"
+  hackernews:
+    count: 3
+    fetch_via: hn_api
+    endpoint: topstories
+  paper_of_the_day:
+    count: 1
+    fetch_via: arxiv
+    categories: [cs.OS, cs.DB, cs.DC, cs.AI, cs.LG, cs.IR, cs.SE, cs.CR]
+    days_back: 2
+  weekday_deep_dive:
+    count: 1
+    # source is driven by weekday_rotation above
+  fact_of_the_day:
+    count: 1
+    fetch_via: wikipedia_otd
+  comic:
+    count: 1
+    fetch_via: comic
+    rotate_sources: [xkcd, smbc, oatmeal]
+
+# A* venues to watch (dblp scraping)
+conferences:
+  systems: [SOSP, OSDI, "USENIX ATC", NSDI, EuroSys, FAST]
+  databases: [VLDB, SIGMOD, ICDE, CIDR]
+  ai_ml: [NeurIPS, ICML, ICLR, ACL, EMNLP]
+  networking: [SIGCOMM, "USENIX Security"]
+
+# Structural constraints — hard rules enforced during ranking.
+constraints:
+  max_items_per_source: 2
+  max_share_per_topic: 0.30
+  exploration_slot_fraction: 0.20
+  target_word_count: 1500

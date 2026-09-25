@@ -1,0 +1,37 @@
+# Environment
+.env
+.env.local
+
+# uv virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Data (keep dir, ignore contents)
+data/*.db
+data/*.sqlite
+
+# Logs (fully ignored)
+logs/
+
+# Proposed config edits from Sunday review — human reviews then merges to taste.yaml
+config/taste.yaml.proposed
+
+# OS files
+.DS_Store

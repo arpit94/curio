@@ -1,0 +1,127 @@
+# Curio taste profile — the affinity model driving the daily digest.
+# Edited weekly (Sunday review proposes diffs). Hand-tuneable anytime.
+
+interests:
+  - name: systems_os
+    weight: 1.0
+    description: >
+      Operating systems research and engineering: kernels, schedulers,
+      filesystems, storage, virtualization, concurrency, distributed systems.
+    keywords:
+      - operating system
+      - kernel
+      - Linux kernel
+      - scheduler
+      - filesystem
+      - virtualization
+      - hypervisor
+      - eBPF
+      - io_uring
+      - concurrency
+      - distributed systems
+      - consensus
+      - storage engine
+
+  - name: us_healthcare
+    weight: 1.0
+    description: >
+      US healthcare — policy, digital health, EHR interoperability,
+      payer/provider dynamics, Medicare/Medicaid, health IT.
+    keywords:
+      - Medicare
+      - Medicaid
+      - CMS
+      - EHR
+      - FHIR
+      - digital health
+      - value-based care
+      - health insurance
+      - HIPAA
+      - prior authorization
+      - telehealth
+      - health IT
+
+  - name: data_infra
+    weight: 0.9
+    description: >
+      Data infrastructure: web scraping, ETL/ELT pipelines, orchestration,
+      graph databases, data warehouses, streaming.
+    keywords:
+      - web scraping
+      - ETL
+      - ELT
+      - data pipeline
+      - Airflow
+      - Dagster
+      - dbt
+      - Neo4j
+      - graph database
+      - Kafka
+      - streaming
+      - data warehouse
+      - Snowflake
+      - DuckDB
+
+  - name: ai_research
+    weight: 0.9
+    description: >
+      AI/ML research and applied AI — model releases, benchmarks,
+      alignment, agents, retrieval, evaluation.
+    keywords:
+      - large language model
+      - LLM
+      - transformer
+      - RAG
+      - retrieval-augmented
+      - agent
+      - evaluation
+      - benchmark
+      - fine-tuning
+      - alignment
+      - reasoning
+
+  - name: world_important
+    weight: 0.7
+    description: >
+      Major world news that matters: geopolitics with real impact,
+      significant disasters, major policy shifts, market-moving events.
+    keywords:
+      - election
+      - conflict
+      - disaster
+      - policy
+      - regulation
+      - central bank
+      - climate
+
+anti_interests:
+  - crypto_pumps
+  - celebrity_gossip
+  - politics_as_sport   # horse-race coverage, polling drama, partisan takes
+  - influencer_drama
+  - product_launch_fluff
+  - fundraising_announcements  # "Startup X raises $Y" without substance
+
+calibration:
+  include_like:
+    - "New consensus algorithm reduces tail latency in Byzantine environments"
+    - "CMS proposes rule change for Medicare Advantage risk adjustment coding"
+    - "Notable paper introducing a new scheduler design at OSDI"
+    - "In-depth analysis of a novel ETL orchestration pattern for streaming data"
+    - "New graph database query language with cost-based optimizer"
+    - "Empirical study comparing agent architectures on real-world tasks"
+    - "Long-form investigation into hospital pricing opacity"
+
+  exclude_like:
+    - "AI startup X raises $50M Series B"
+    - "Celebrity endorses new app"
+    - "Poll shows candidate X leading by Y points"
+    - "10 tips for productivity"
+    - "Bitcoin hits new all-time high"
+    - "Company announces strategic partnership with other company"
+    - "New JavaScript framework announced"
+
+# Novelty: penalize items too similar to what's been included recently.
+novelty:
+  window_days: 7
+  title_similarity_threshold: 85   # rapidfuzz ratio (0-100); above this = considered duplicate

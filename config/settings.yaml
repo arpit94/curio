@@ -1,0 +1,18 @@
+# Runtime settings.
+
+email:
+  subject_template: "curio · {date} · {weekday}"
+  from_name: "Curio"
+
+agent:
+  model: claude-sonnet-4-6
+  max_turns_daily: 40
+  max_turns_sunday: 60
+  permission_mode: acceptEdits
+
+paths:
+  editions: editions
+  logs: logs
+  data: data
+  config: config
+  templates: templates

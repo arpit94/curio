@@ -1,0 +1,23 @@
+# Curio crontab — install with `crontab -e` on your Mac.
+#
+# Runs the digest at 06:00 local time. Sunday uses the review variant.
+#
+# Prerequisites:
+#   1. Set up .env with GMAIL_USER / GMAIL_APP_PASSWORD / DIGEST_TO
+#   2. Verify `uv run curio --mode dry-run` works from your shell
+#   3. Ensure /opt/homebrew/bin (or wherever uv lives) is on PATH here
+#   4. To wake the Mac from sleep at 05:55 daily, run once as sudo:
+#        sudo pmset repeat wake MTWRFSU 05:55:00
+#
+# Notes:
+#   - Absolute paths only — cron does not source your shell profile.
+#   - `flock` prevents overlapping runs if a job over-runs the next one.
+#   - Logs go to logs/curio_YYYY-MM-DD.log inside the project.
+
+PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin
+
+# Monday–Saturday: daily digest at 06:00
+0 6 * * 1-6  /usr/bin/flock -n /tmp/curio-daily.lock /Users/arpitaggarwal/personal/github.com/arpit94/curio/scripts/cron_daily.sh
+
+# Sunday: weekly review + daily digest at 06:00
+0 6 * * 0    /usr/bin/flock -n /tmp/curio-sunday.lock /Users/arpitaggarwal/personal/github.com/arpit94/curio/scripts/cron_sunday_review.sh
