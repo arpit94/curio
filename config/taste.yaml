@@ -65,8 +65,8 @@ interests:
   - name: ai_research
     weight: 0.9
     description: >
-      AI/ML research and applied AI — model releases, benchmarks,
-      alignment, agents, retrieval, evaluation.
+      AI/ML research and applied AI — benchmarks, alignment, agents,
+      retrieval, evaluation. For product/API/model launches see ai_releases.
     keywords:
       - large language model
       - LLM
@@ -79,6 +79,44 @@ interests:
       - fine-tuning
       - alignment
       - reasoning
+
+  - name: ai_releases
+    weight: 1.0
+    description: >
+      New AI model, API, and SDK releases from major labs — Anthropic,
+      OpenAI, Google DeepMind, Meta, Mistral, xAI, DeepSeek, and comparable
+      frontier labs. Capability improvements, new modalities, new developer
+      APIs, agent/tool-use features. Substance over marketing (fundraising
+      and partnership fluff stay excluded).
+    keywords:
+      - Anthropic
+      - Claude
+      - OpenAI
+      - GPT-5
+      - GPT-4
+      - o1
+      - o3
+      - Gemini
+      - Google DeepMind
+      - Llama
+      - Meta AI
+      - Mistral
+      - Grok
+      - xAI
+      - DeepSeek
+      - model release
+      - new model
+      - API release
+      - developer API
+      - SDK release
+      - developer preview
+      - general availability
+      - context window
+      - tool use
+      - function calling
+      - multimodal
+      - vision model
+      - code model
 
   - name: world_important
     weight: 0.7
@@ -111,6 +149,11 @@ calibration:
     - "New graph database query language with cost-based optimizer"
     - "Empirical study comparing agent architectures on real-world tasks"
     - "Long-form investigation into hospital pricing opacity"
+    - "Anthropic releases Claude Opus 4.7 with 1M-token context and improved tool use"
+    - "OpenAI announces Decisions API for structured multi-step agent workflows"
+    - "Google DeepMind ships Gemini 3 with native video understanding"
+    - "Meta releases Llama 4 weights with 10M-token context window"
+    - "DeepSeek-V4 technical report: new MoE architecture, open weights"
 
   exclude_like:
     - "AI startup X raises $50M Series B"
